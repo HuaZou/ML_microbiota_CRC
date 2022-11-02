@@ -1,0 +1,153 @@
+---
+title: "Machine Learning on gut microbiota of patients with Colorectal cancer (1): Obtaining inpudata"
+date: "Created: 2022-11-01; Updated: `r Sys.Date()`"
+author:
+  - name: "Hua Zou"
+    email: "zouhua@xbiome.com"
+output:
+  html_notebook:
+    # codes: hide  
+    # html_document: 
+    #     toc: true
+---
+
+# Obtaining inpudata
+
+Downloading datasets using **curatedMetagenomicData**, which contains the HUMANN or Metaphlan results.
+
+
+## Loading packages 
+
+```{r setup}
+knitr::opts_chunk$set(warning = FALSE)
+library(dplyr)
+library(tibble)
+library(curatedMetagenomicData)
+#library(curatedMetagenomicAnalyses)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## Investigate potential response variables
+
++ These are the 10 study conditions most commonly found in curatedMetagenomicData:
+```{r}
+data("sampleMetadata")
+availablediseases <- pull(sampleMetadata, study_condition) %>%
+  table() %>%
+  sort(decreasing = TRUE)
+
+availablediseases
+```
+
++ And the number of studies they are found in:
+```{r}
+studies <- lapply(names(availablediseases), function(x){
+  filter(sampleMetadata, study_condition %in% x) %>%
+    pull(study_name) %>%
+    unique()
+})
+names(studies) <- names(availablediseases)
+studies <- studies[-grep("control", names(studies))] #get rid of controls
+studies <- studies[sapply(studies, length) > 1] #available in more than one study
+
+studies
+```
+
++ Each of these datasets has six data types associated with it; for example:
+```{r}
+curatedMetagenomicData(pattern = "YachidaS_2019.+",
+                       dryrun = TRUE,
+                       counts = TRUE,
+                       rownames = "long") 
+```
+
++ Relative abundance: storing into TreeSummarizedExperiment object
+```{r}
+YachidaS_2019_dataset <- curatedMetagenomicData(pattern = "YachidaS_2019.+relative_abundance",
+                       dryrun = FALSE,
+                       counts = TRUE,
+                       rownames = "long")
+
+YachidaS_2019_RB_TSE <- YachidaS_2019_dataset$`2021-10-14.YachidaS_2019.relative_abundance`
+YachidaS_2019_RB_TSE
+```
+
+
+## Write relative abundance datasets to disk
+```{r}
+if (0) {
+for (i in seq_along(studies)){
+  cond <- names(studies)[i]
+  se <-
+    curatedMetagenomicAnalyses::makeSEforCondition(cond, removestudies = "HMP_2019_ibdmdb", dataType = "relative_abundance")
+  print(paste("Next study condition:", cond, " /// Body site: ", unique(colData(se)$body_site)))
+  print(with(colData(se), table(study_name, study_condition)))
+  cat("\n \n")
+  save(se, file = paste0(cond, ".rda"))
+  flattext <- select(as.data.frame(colData(se)), c("study_name", "study_condition", "subject_id"))
+  rownames(flattext) <- colData(se)$sample_id
+  flattext <- cbind(flattext, data.frame(t(assay(se))))
+  write.csv(flattext, file = paste0(cond, ".csv"))
+  system(paste0("gzip ", cond, ".csv"))
+}
+}
+```
+
+
+## Preparing for machine learning
+
++ metadata 
+
++ relative abundance profile
+
+```{r}
+metadata <- colData(YachidaS_2019_RB_TSE) %>% 
+  data.frame()
+phenotype <- metadata %>% 
+  dplyr::select(disease) %>%
+  tibble::rownames_to_column("SampleID") %>%
+  dplyr::filter(disease %in% c("CRC", "healthy"))
+
+profile <- assay(YachidaS_2019_RB_TSE)
+
+sid <- intersect(phenotype$SampleID, colnames(profile))
+
+prof <- profile %>%
+  data.frame() %>% 
+  tibble::rownames_to_column("TaxaID") %>%
+  dplyr::group_by(TaxaID) %>%
+  dplyr::mutate(TaxaID_new = unlist(strsplit(TaxaID, "\\|"))[7]) %>%
+  dplyr::select(TaxaID, TaxaID_new, all_of(sid)) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-TaxaID) %>%
+  dplyr::rename(TaxaID = TaxaID_new)
+
+phen <- phenotype %>%
+  dplyr::filter(SampleID %in% sid)
+```
+
+
+## output
+```{r}
+if (!dir.exists("./dataset")) {
+  dir.create("./dataset", recursive = TRUE)
+}
+
+write.csv(phen, "./dataset/metadata.csv", row.names = F)
+write.table(prof, "./dataset/species.tsv", sep = "\t", quote = F, row.names = F)
+```
+
+
+## Session info
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
+1. [Create datasets for machine learning](https://waldronlab.io/curatedMetagenomicDataAnalyses/articles/MLdatasets.html)
