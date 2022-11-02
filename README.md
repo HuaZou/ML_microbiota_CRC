@@ -20,15 +20,15 @@ The analysis is divided into four sections, saved in juypter notebooks in this r
 ### [Rmarkdown 1](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/00.Obtain_inputs_for_ML.Rmd): Downloading data.
 ### [Notebook 2](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/01.DataClean.ipynb): Identifying the problem and Getting data.
 
-### [Notebook 3](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/02.ExploratoryDataAnalysis.ipynb) Exploratory Data Analysis
-### [Notebook 4](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/03.DataPreprocesing.ipynb) Pre-Processing the data
-### [Notebook 5](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/04.DifferentialAnalysis.ipynb) Differential Analysis
+### [Notebook 3](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/02.ExploratoryDataAnalysis.ipynb) Exploratory Data Analysis.
+### [Notebook 4](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/03.DataPreprocesing.ipynb) Pre-Processing the data.
+### [Notebook 5](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/04.DifferentialAnalysis.ipynb) Differential Analysis.
 
-### [Notebook 6](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/05.PredictiveModelUsingSVM.ipynb) Predictive model using Support Vector Machine (svm)
-### [Notebook 7](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/06.OptimizingSVMClassifier.ipynb): Optimizing the  Support Vector Classifier
-### [Notebook 8](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/07.Comparison_between_different_classifiers.ipynb): Comparison between different classifiers
+### [Notebook 6](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/05.PredictiveModelUsingSVM.ipynb) Predictive model using Support Vector Machine (svm).
+### [Notebook 7](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/06.OptimizingSVMClassifier.ipynb): Optimizing the  Support Vector Classifier.
+### [Notebook 8](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/blob/main/07.Comparison_between_different_classifiers.ipynb): Comparison between different classifiers.
 
-### [dataset](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/tree/main/dataset): The input and output dataset
+### [dataset](https://github.com/HuaZou/Machine-Learning-on-gut-microbiota-of-patients-with-Colorectal-cancer/tree/main/dataset): The input and output dataset.
 
 
 
