@@ -7,3 +7,5 @@ jupyter nbconvert --to markdown 04.DifferentialAnalysis.ipynb
 jupyter nbconvert --to markdown 05.PredictiveModelUsingSVM.ipynb
 jupyter nbconvert --to markdown 06.OptimizingSVMClassifier.ipynb
 jupyter nbconvert --to markdown 07.Comparison_between_different_classifiers.ipynb
+jupyter nbconvert --to markdown 08.PredictiveModelRandomForest.ipynb
+
