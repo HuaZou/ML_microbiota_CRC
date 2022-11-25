@@ -3,7 +3,7 @@ title: "Machine Learning on gut microbiota of patients with Colorectal cancer (1
 date: "Created: 2022-11-01; Updated: `r Sys.Date()`"
 author:
   - name: "Hua Zou"
-    email: "zouhua@xbiome.com"
+    email: "zouhua1@outlook.com"
 output:
   html_notebook:
     # codes: hide  
